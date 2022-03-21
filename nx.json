@@ -1,0 +1,24 @@
+{
+  "extends": "@nrwl/workspace/presets/core.json",
+  "npmScope": "react-testing-guideline",
+  "affected": {
+    "defaultBase": "main"
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ],
+        "accessToken": "OTc3ZjI1OGYtMzAwOC00NDJiLThkMjItZmQ1NWE3ODQ4NGI5fHJlYWQtd3JpdGU="
+      }
+    }
+  }
+}
