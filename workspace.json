@@ -1,4 +1,7 @@
 {
   "version": 2,
-  "projects": {}
+  "projects": {
+    "custom": "packages/custom",
+    "custom-e2e": "packages/custom-e2e"
+  }
 }
