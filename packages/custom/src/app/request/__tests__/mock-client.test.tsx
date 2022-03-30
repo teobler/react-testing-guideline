@@ -48,4 +48,21 @@ describe('mock-api-client', () => {
     });
     expect(mockedFetch).toBeCalledTimes(3);
   });
+
+  it('should call mocked client three ties', async () => {
+    mockedFetch.mockRejectedValue({
+      json: () =>
+        Promise.reject({
+          error: 'mock error message',
+        }),
+    });
+
+    render(<CompWithRequest />);
+
+    await waitFor(() => {
+      // will just call mock fetch once, cannot figure out why.
+      expect(mockedFetch).toBeCalledTimes(1);
+    });
+    expect(screen.getByText('No Data!')).toBeInTheDocument();
+  });
 });

@@ -7,6 +7,7 @@ export const CompWithRequest: React.FC = () => {
     firstName: string;
     lastName: string;
   }>();
+  const [error, setError] = useState();
 
   const fetchSomeThing = async () => {
     let responseBody;
@@ -16,15 +17,13 @@ export const CompWithRequest: React.FC = () => {
       responseBody = await response.json();
     }
 
-    setData(responseBody);
+    responseBody.error ? setError(error) : setData(responseBody);
   };
 
-  timer.current === 0 && fetchSomeThing().catch((error) => console.error(error));
+  timer.current === 0 && fetchSomeThing().catch((error) => setError(error));
   timer.current = 1;
 
-  return data ? (
-    <div>{`firstName: ${data.firstName} lastName: ${data.lastName}`}</div>
-  ) : (
-    <div>No Data!</div>
-  );
+  if (error || !data) return <div>No Data!</div>;
+
+  return <div>{`firstName: ${data.firstName} lastName: ${data.lastName}`}</div>;
 };

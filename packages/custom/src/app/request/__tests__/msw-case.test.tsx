@@ -18,6 +18,10 @@ describe('msw-case', () => {
 
   beforeAll(() => {
     worker.listen();
+    // more info here: https://github.com/mswjs/msw/issues/719
+    worker.events.on('request:start', () => {
+      requestBeCalledTimes++;
+    });
   });
 
   beforeEach(() => {
@@ -39,11 +43,6 @@ describe('msw-case', () => {
   });
 
   it('should call test api three times', async () => {
-    // more info here: https://github.com/mswjs/msw/issues/719
-    worker.events.on('request:start', () => {
-      requestBeCalledTimes++;
-    });
-
     render(<CompWithRequest />);
 
     // waiting for component render complete
@@ -53,5 +52,25 @@ describe('msw-case', () => {
       ).toBeInTheDocument();
     });
     expect(requestBeCalledTimes).toBe(3);
+  });
+
+  it('should call test api failed', async () => {
+    worker.use(
+      rest.get('/test', (req, res, ctx) =>
+        res(
+          ctx.status(500),
+          ctx.json({
+            error: 'mock error message',
+          })
+        )
+      )
+    );
+
+    render(<CompWithRequest />);
+
+    await waitFor(() => {
+      expect(requestBeCalledTimes).toBe(3);
+    });
+    expect(screen.getByText('No Data!')).toBeInTheDocument();
   });
 });

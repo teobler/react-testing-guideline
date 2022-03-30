@@ -19,4 +19,17 @@ describe('nock', () => {
     });
     expect(scope.isDone()).toBeTruthy();
   });
+
+  it('should console error when nock return error', async () => {
+    const scope = nock('http://localhost').get('/test').times(3).reply(500, {
+      error: 'mock error message',
+    });
+
+    render(<CompWithRequest />);
+
+    await waitFor(() => {
+      expect(scope.isDone()).toBeTruthy();
+    });
+    expect(screen.getByText('No Data!')).toBeInTheDocument();
+  });
 });
