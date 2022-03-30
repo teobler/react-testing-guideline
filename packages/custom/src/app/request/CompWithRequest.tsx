@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-export const MswCase: React.FC = () => {
+export const CompWithRequest: React.FC = () => {
   // I want to call same API three times and assert it in test
   const timer = useRef<number>(0);
   const [data, setData] = useState<{

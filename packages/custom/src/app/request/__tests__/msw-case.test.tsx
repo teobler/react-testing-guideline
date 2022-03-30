@@ -1,7 +1,7 @@
 import { setupServer } from 'msw/native';
 import { rest } from 'msw';
 import { render, screen, waitFor } from '@testing-library/react';
-import { MswCase } from 'packages/custom/src/app/request/msw-case';
+import { CompWithRequest } from 'packages/custom/src/app/request/CompWithRequest';
 
 describe('msw-case', () => {
   let requestBeCalledTimes = 0;
@@ -29,7 +29,7 @@ describe('msw-case', () => {
   });
 
   it('should call test api and handled by msw', async () => {
-    render(<MswCase />);
+    render(<CompWithRequest />);
 
     await waitFor(() => {
       expect(
@@ -44,7 +44,7 @@ describe('msw-case', () => {
       requestBeCalledTimes++;
     });
 
-    render(<MswCase />);
+    render(<CompWithRequest />);
 
     // waiting for component render complete
     await waitFor(() => {
