@@ -35,7 +35,7 @@ describe('mock-api-client', () => {
         screen.getByText('firstName: John lastName: Maverick')
       ).toBeInTheDocument();
     });
-    expect(mockedFetch).toBeCalledWith('/test');
+    expect(mockedFetch).toBeCalledWith('http://localhost/test');
   });
 
   it('should call mocked client three times', async () => {

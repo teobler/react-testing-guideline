@@ -11,7 +11,8 @@ export const CompWithRequest: React.FC = () => {
   const fetchSomeThing = async () => {
     let responseBody;
     for (let i = 0; i < 3; i++) {
-      const response = await fetch('/test');
+      // if you use nock as request testing library, then you need to specify the hostname in test env
+      const response = await fetch('http://localhost/test');
       responseBody = await response.json();
     }
 
