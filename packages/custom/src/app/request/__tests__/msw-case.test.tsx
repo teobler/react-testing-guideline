@@ -73,4 +73,27 @@ describe('msw-case', () => {
     });
     expect(screen.getByText('No Data!')).toBeInTheDocument();
   });
+
+  it('should show loading when fetch api', async () => {
+    worker.use(
+      rest.get('/test', (req, res, ctx) =>
+        res(
+          ctx.json({
+            firstName: 'John',
+            lastName: 'Maverick',
+          })
+        )
+      )
+    );
+    render(<CompWithRequest />);
+
+    expect(screen.getByText('loading...')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(requestBeCalledTimes).toBe(3);
+    });
+    expect(screen.queryByText('loading...')).not.toBeInTheDocument();
+    expect(
+      screen.getByText('firstName: John lastName: Maverick')
+    ).toBeInTheDocument();
+  });
 });

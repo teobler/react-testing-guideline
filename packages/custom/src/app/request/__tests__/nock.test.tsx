@@ -32,4 +32,27 @@ describe('nock', () => {
     });
     expect(screen.getByText('No Data!')).toBeInTheDocument();
   });
+
+  it('should show loading when fetch api', async () => {
+    const scope = nock('http://localhost')
+      .get('/test')
+      .delay(200)
+      .times(3)
+      .reply(200, {
+        firstName: 'John',
+        lastName: 'Maverick',
+      });
+
+    render(<CompWithRequest />);
+
+    expect(screen.getByText('loading...')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('firstName: John lastName: Maverick')
+      ).toBeInTheDocument();
+    });
+    expect(screen.queryByText('loading...')).not.toBeInTheDocument();
+    expect(scope.isDone()).toBeTruthy();
+  });
 });

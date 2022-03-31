@@ -17,13 +17,14 @@ export const CompWithRequest: React.FC = () => {
       responseBody = await response.json();
     }
 
-    responseBody.error ? setError(error) : setData(responseBody);
+    responseBody.error ? setError(responseBody) : setData(responseBody);
   };
 
   timer.current === 0 && fetchSomeThing().catch((error) => setError(error));
   timer.current = 1;
 
-  if (error || !data) return <div>No Data!</div>;
+  if (error) return <div>No Data!</div>;
+  if (!data) return <div>loading...</div>;
 
   return <div>{`firstName: ${data.firstName} lastName: ${data.lastName}`}</div>;
 };

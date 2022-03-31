@@ -65,4 +65,17 @@ describe('mock-api-client', () => {
     });
     expect(screen.getByText('No Data!')).toBeInTheDocument();
   });
+
+  it('should show loading when fetch api', async () => {
+    render(<CompWithRequest />);
+
+    expect(screen.getByText('loading...')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('firstName: John lastName: Maverick')
+      ).toBeInTheDocument();
+    });
+    expect(screen.queryByText('loading...')).not.toBeInTheDocument();
+  });
 });
